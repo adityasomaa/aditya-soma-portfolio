@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Aditya Soma — Portfolio
 
-## Getting Started
+Monochrome, grainy, anti-mainstream portfolio. Live at
+[aditya-soma-portfolio.vercel.app](https://aditya-soma-portfolio.vercel.app).
 
-First, run the development server:
+## Stack
+
+- **Next.js 16** (App Router, Turbopack) + **React 19** + **TypeScript**
+- **Tailwind CSS v4**
+- **GSAP** (+ ScrollTrigger) for all motion
+- **Lenis** smooth scroll — desktop only, disabled on mobile/tablet and
+  inside scrollable popups (`data-lenis-prevent`)
+- **PP Neue Montreal** via font CDN
+
+## Features
+
+- First-load preloader (staggered name, 0→100 counter, cursor-reactive glow)
+- Seamless curtain page transitions — content swaps & scroll resets while
+  the curtain is fully closed, logo on the curtain
+- Custom blend-mode cursor with contextual labels
+- Fully custom form controls: dropdowns and a date picker (whole field is
+  clickable, glass calendar popup) — no native `<select>`/`<input type=date>`
+- Glassmorphism + animated film grain + black/white gradients everywhere
+- Interactive extras: magnetic buttons, cursor-repelling skill chips,
+  floating work previews that chase the cursor, scrub-brightening manifesto,
+  sticky stacked service cards
+- Pages: Home, Works (+ per-project pages), Contact, Privacy Policy,
+  Legal Terms, custom 404
+
+## Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Deploy
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Pushed to `main` → auto-deploys on Vercel (project name
+`aditya-soma-portfolio`).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Adding a new work
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Add one entry to `src/lib/data.ts` — the works grid, home list, and the
+project detail page are all generated from it.
