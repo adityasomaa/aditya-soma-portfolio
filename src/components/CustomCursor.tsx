@@ -33,7 +33,15 @@ export default function CustomCursor() {
     const ringX = gsap.quickTo(ring, "x", { duration: 0.45, ease: "power3" });
     const ringY = gsap.quickTo(ring, "y", { duration: 0.45, ease: "power3" });
 
+    // Until the pointer first moves, both nodes would sit at 0,0 and show as a
+    // stray blob in the top-left corner, so they stay hidden until then.
+    let shown = false;
     const onMove = (e: MouseEvent) => {
+      if (!shown) {
+        shown = true;
+        gsap.set([dot, ring], { x: e.clientX, y: e.clientY });
+        gsap.to([dot, ring], { autoAlpha: 1, duration: 0.3 });
+      }
       dotX(e.clientX);
       dotY(e.clientY);
       ringX(e.clientX);
@@ -79,11 +87,11 @@ export default function CustomCursor() {
     <>
       <div
         ref={dotRef}
-        className="pointer-events-none fixed top-0 left-0 z-[95] h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-paper mix-blend-difference"
+        className="pointer-events-none invisible fixed top-0 left-0 z-[95] h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-paper opacity-0 mix-blend-difference"
       />
       <div
         ref={ringRef}
-        className="pointer-events-none fixed top-0 left-0 z-[95] grid h-9 w-9 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-paper/50 mix-blend-difference"
+        className="pointer-events-none invisible fixed top-0 left-0 z-[95] grid h-9 w-9 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-paper/50 opacity-0 mix-blend-difference"
       >
         <span
           ref={labelRef}
