@@ -17,8 +17,9 @@ export default function LegalTermsPage() {
         <SplitReveal
           as="h1"
           immediate
+          highlight
           delay={0.5}
-          className="text-gradient mb-14 text-5xl font-medium tracking-tighter md:text-7xl"
+          className="mb-14 text-5xl font-medium tracking-tighter md:text-7xl"
         >
           Legal Terms
         </SplitReveal>

@@ -1,8 +1,11 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import clsx from "clsx";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
+
+const NBSP = " ";
+const ZWSP = "​";
 
 type RevealProps = {
   children: string;
@@ -11,6 +14,14 @@ type RevealProps = {
   delay?: number;
   /** animate on mount instead of on scroll (for above-the-fold heros) */
   immediate?: boolean;
+  /**
+   * Paint the heading as a run of paper blocks with ink text, the way selected
+   * text looks. This is also what keeps headings opaque: `.text-gradient` needs
+   * `color: transparent` + `background-clip: text`, and that gradient never
+   * paints onto glyphs sitting inside these masked, layer-promoted words, so a
+   * gradient heading renders invisible here.
+   */
+  highlight?: boolean;
 };
 
 /** Word-by-word masked reveal, triggered on scroll (or on mount). */
@@ -20,6 +31,7 @@ export function SplitReveal({
   as: Tag = "p",
   delay = 0,
   immediate = false,
+  highlight = false,
 }: RevealProps) {
   const ref = useRef<HTMLElement>(null);
 
@@ -48,16 +60,39 @@ export function SplitReveal({
     return () => ctx.revert();
   }, [delay, immediate]);
 
+  const words = children.split(" ");
+
   return (
     // @ts-expect-error dynamic tag
     <Tag ref={ref} className={className}>
-      {children.split(" ").map((word, i) => (
-        <span key={i} className="inline-block overflow-hidden pb-[0.08em] align-bottom">
-          <span className="sr-word inline-block will-change-transform">
-            {word}
+      {words.map((word, i) => (
+        <Fragment key={i}>
+          {/* Each mask holds its word plus the following space, so neighbouring
+              masks butt together into one unbroken highlight run. The space has
+              to be NBSP: a plain one collapses away at the end of an
+              inline-block. The right padding compensates for `tracking-*`,
+              which shortens the last glyph's advance and would otherwise let
+              overflow-hidden shave it off. */}
+          <span
+            className={clsx(
+              "inline-block overflow-hidden pt-[0.16em] pr-[0.06em] pb-[0.1em] align-bottom",
+              highlight && "bg-paper",
+            )}
+          >
+            <span
+              className={clsx(
+                "sr-word inline-block will-change-transform",
+                highlight && "text-ink",
+              )}
+            >
+              {word}
+            </span>
+            {i < words.length - 1 && NBSP}
           </span>
-          {" "}
-        </span>
+          {/* Adjacent inline-blocks offer no wrap opportunity on their own, so
+              hand the line breaker an invisible one. */}
+          {i < words.length - 1 && ZWSP}
+        </Fragment>
       ))}
     </Tag>
   );

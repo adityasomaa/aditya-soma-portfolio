@@ -51,7 +51,8 @@ export default function SelectedWorks() {
             </p>
             <SplitReveal
               as="h2"
-              className="text-gradient text-4xl font-medium tracking-tight md:text-6xl"
+              highlight
+              className="text-4xl font-medium tracking-tight md:text-6xl"
             >
               Things I shipped recently
             </SplitReveal>

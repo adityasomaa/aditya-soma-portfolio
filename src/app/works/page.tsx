@@ -20,8 +20,9 @@ export default function WorksPage() {
         <SplitReveal
           as="h1"
           immediate
+          highlight
           delay={0.5}
-          className="text-gradient mb-6 text-[14vw] leading-[0.95] font-medium tracking-tighter md:text-[9vw]"
+          className="mb-6 text-[14vw] leading-[0.95] font-medium tracking-tighter md:text-[9vw]"
         >
           Selected Works
         </SplitReveal>

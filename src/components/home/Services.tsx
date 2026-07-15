@@ -13,7 +13,8 @@ export default function Services() {
         </p>
         <SplitReveal
           as="h2"
-          className="text-gradient mb-16 max-w-3xl text-4xl font-medium tracking-tight md:text-6xl"
+          highlight
+          className="mb-16 max-w-3xl text-4xl font-medium tracking-tight md:text-6xl"
         >
           Capabilities, stacked in your favor
         </SplitReveal>

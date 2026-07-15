@@ -36,8 +36,9 @@ export default async function WorkDetailPage({ params }: Props) {
         <SplitReveal
           as="h1"
           immediate
+          highlight
           delay={0.5}
-          className="text-gradient mb-12 text-[13vw] leading-[0.95] font-medium tracking-tighter md:text-[8vw]"
+          className="mb-12 text-[13vw] leading-[0.95] font-medium tracking-tighter md:text-[8vw]"
         >
           {work.title}
         </SplitReveal>
