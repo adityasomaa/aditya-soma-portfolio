@@ -7,14 +7,14 @@ import DatePicker from "./DatePicker";
 import MagneticButton from "@/components/MagneticButton";
 
 const SERVICES = [
-  "Web Experience",
-  "Product & UI Design",
-  "Creative Development",
-  "Motion & Direction",
+  "Web & Software Development",
+  "Social Media Management",
+  "Ads Management",
+  "AI Automation",
   "Something else entirely",
 ];
 
-const BUDGETS = ["< $2k", "$2k – $5k", "$5k – $10k", "$10k+", "Let's discuss"];
+const BUDGETS = ["< $2k", "$2k - $5k", "$5k - $10k", "$10k+", "Let's discuss"];
 
 type Status = "idle" | "sending" | "sent";
 
@@ -34,7 +34,7 @@ export default function ContactForm() {
     e.preventDefault();
     if (status !== "idle") return;
     setStatus("sending");
-    // demo submission — wire to an API route / Composio later
+    // demo submission, wire to an API route / Composio later
     setTimeout(() => {
       setStatus("sent");
       setTimeout(() => {
@@ -52,7 +52,7 @@ export default function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="glass grain grain-static relative overflow-hidden rounded-3xl p-6 md:p-9"
+      className="glass grain relative overflow-hidden rounded-3xl p-6 md:p-9"
     >
       <div className="relative z-10 flex flex-col gap-6">
         <div className="grid gap-6 md:grid-cols-2">
@@ -115,7 +115,7 @@ export default function ContactForm() {
             required
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            placeholder="Tell me about your project, goals, timeline…"
+            placeholder="Tell me about your project, goals, timeline..."
             rows={5}
             className={clsx(inputClass, "resize-none")}
           />
@@ -145,7 +145,7 @@ export default function ContactForm() {
             )}
             {status === "sent" && (
               <>
-                Message sent — talk soon <span aria-hidden>✓</span>
+                Message sent, talk soon <span aria-hidden>✓</span>
               </>
             )}
           </button>

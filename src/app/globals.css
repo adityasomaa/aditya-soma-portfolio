@@ -1,16 +1,14 @@
-@import url("https://fonts.cdnfonts.com/css/pp-neue-montreal");
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "PP Neue Montreal", "Neue Montreal", "Helvetica Neue", Helvetica,
-    Arial, sans-serif;
+  --font-sans: var(--font-neue-montreal), "Helvetica Neue", Helvetica, Arial,
+    sans-serif;
   --color-ink: #060606;
   --color-coal: #0d0d0d;
   --color-ash: #1a1a1a;
   --color-mist: #9c9c98;
   --color-paper: #f2f2f0;
   --animate-marquee: marquee 28s linear infinite;
-  --animate-spin-slow: spin 14s linear infinite;
 }
 
 :root {
@@ -72,30 +70,46 @@ body {
 }
 
 /* ---------- glassmorphism ---------- */
+/* Layered as components so Tailwind utilities (hover:bg-paper etc.) win. */
 
-.glass {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.08),
-    rgba(255, 255, 255, 0.02)
-  );
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+@layer components {
+  .glass {
+    background-color: rgba(255, 255, 255, 0.04);
+    background-image: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.06),
+      rgba(255, 255, 255, 0)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(18px);
+  }
+
+  .glass-strong {
+    background-color: rgba(255, 255, 255, 0.07);
+    background-image: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(28px);
+  }
+
+  /* Popups that float over text need to be readable: near-opaque + heavy blur */
+  .glass-popup {
+    background-color: rgba(14, 14, 14, 0.88);
+    background-image: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.07),
+      rgba(255, 255, 255, 0)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(28px) saturate(120%);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  }
 }
 
-.glass-strong {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.12),
-    rgba(255, 255, 255, 0.04)
-  );
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
-}
-
-/* ---------- grain noise ---------- */
+/* ---------- grain noise (fine, HD, animated) ---------- */
 
 .grain {
   position: relative;
@@ -105,33 +119,43 @@ body {
 .grain::after {
   content: "";
   position: absolute;
-  inset: -100%;
+  inset: -50%;
   z-index: 1;
   pointer-events: none;
-  opacity: 0.07;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  animation: grain-shift 0.9s steps(4) infinite;
-}
-
-.grain-static::after {
-  animation: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 400px 400px;
+  animation: grain-shift 0.7s steps(8) infinite;
+  will-change: transform;
 }
 
 @keyframes grain-shift {
   0% {
     transform: translate(0, 0);
   }
+  12.5% {
+    transform: translate(-2.5%, 1.5%);
+  }
   25% {
-    transform: translate(-4%, 3%);
+    transform: translate(1.5%, -2.5%);
+  }
+  37.5% {
+    transform: translate(-1%, 2%);
   }
   50% {
-    transform: translate(3%, -5%);
+    transform: translate(2.5%, 1%);
+  }
+  62.5% {
+    transform: translate(-2%, -1.5%);
   }
   75% {
-    transform: translate(-2%, -3%);
+    transform: translate(1%, 2.5%);
+  }
+  87.5% {
+    transform: translate(2%, -1%);
   }
   100% {
-    transform: translate(4%, 4%);
+    transform: translate(0, 0);
   }
 }
 
@@ -144,6 +168,78 @@ body {
   to {
     transform: translateX(-50%);
   }
+}
+
+/* ---------- preloader (CSS-driven, no JS animation lib) ---------- */
+
+.pl-letter {
+  display: inline-block;
+  transform: translateY(120%) rotate(6deg);
+  animation: pl-rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  will-change: transform;
+}
+
+@keyframes pl-rise {
+  to {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+.pl-meta {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: pl-fade 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes pl-fade {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pl-root {
+  transition: transform 1.05s cubic-bezier(0.83, 0, 0.17, 1);
+}
+
+.pl-root.pl-exit {
+  transform: translateY(-100%);
+}
+
+.pl-inner {
+  transition:
+    opacity 0.5s ease-in,
+    transform 0.5s ease-in;
+}
+
+.pl-exit .pl-inner {
+  opacity: 0;
+  transform: translateY(-4rem);
+}
+
+/* ---------- hero reveal (CSS-driven, no JS animation lib) ---------- */
+
+.hero-line {
+  transform: translateY(115%);
+  transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.hero-ready .hero-line {
+  transform: translateY(0);
+}
+
+.hero-fade {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-ready .hero-fade {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ---------- underline link ---------- */
@@ -207,7 +303,7 @@ body {
 }
 
 .prose-mono li::before {
-  content: "—";
+  content: "·";
   position: absolute;
   left: -1.25rem;
   color: rgba(242, 242, 240, 0.4);

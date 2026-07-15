@@ -19,7 +19,7 @@ export const works: Work[] = [
     client: "Lumen",
     role: "Design & Development",
     description:
-      "An immersive monochrome web experience for a photography studio — scroll-driven galleries, WebGL grain, and a custom booking flow.",
+      "An immersive monochrome web experience for a photography studio, with scroll-driven galleries, WebGL grain, and a custom booking flow.",
     gradient: "linear-gradient(135deg, #2b2b2b 0%, #6d6d68 55%, #101010 100%)",
     initials: "LS",
   },
@@ -43,7 +43,7 @@ export const works: Work[] = [
     client: "Orbit",
     role: "Creative Direction",
     description:
-      "Full brand identity and website for a creative agency — kinetic typography, curtain transitions, and a case-study engine.",
+      "Full brand identity and website for a creative agency, featuring kinetic typography, curtain transitions, and a case-study engine.",
     gradient: "linear-gradient(120deg, #4c4c48 0%, #111111 50%, #5c5c58 100%)",
     initials: "OA",
   },
@@ -55,7 +55,7 @@ export const works: Work[] = [
     client: "Noir",
     role: "Design & Development",
     description:
-      "A fashion e-commerce concept where every product page is an editorial spread — smooth scroll, magnetic CTAs, grain everywhere.",
+      "A fashion e-commerce concept where every product page reads like an editorial spread. Smooth scroll, magnetic CTAs, grain everywhere.",
     gradient: "linear-gradient(150deg, #181818 0%, #7a7a74 60%, #050505 100%)",
     initials: "NC",
   },
@@ -64,32 +64,48 @@ export const works: Work[] = [
 export const services = [
   {
     index: "01",
-    title: "Web Experiences",
+    title: "Web & Software Development",
     description:
-      "Award-style marketing sites and portfolios with smooth scroll, seamless page transitions, and motion that serves the story — not the other way around.",
-    tags: ["Next.js", "GSAP", "Lenis", "WebGL"],
+      "Marketing sites, web apps, and internal tools built on a modern stack. Fast, smooth, and designed to turn visitors into customers.",
+    tags: ["Next.js", "React", "Supabase", "WordPress"],
   },
   {
     index: "02",
-    title: "Product & UI Design",
+    title: "Social Media Management",
     description:
-      "Interfaces designed in monochrome first: hierarchy, rhythm and contrast before color. Design systems that engineers actually enjoy using.",
-    tags: ["Design Systems", "Figma", "Prototyping"],
+      "Content planning, art direction, and consistent publishing that keeps the brand alive. A feed people actually want to follow.",
+    tags: ["Instagram", "TikTok", "Content Strategy"],
   },
   {
     index: "03",
-    title: "Creative Development",
+    title: "Ads Management",
     description:
-      "Interactive components nobody has seen before — custom cursors, physics hovers, shader grain, kinetic type. The anti-mainstream layer.",
-    tags: ["Canvas", "Shaders", "Micro-interactions"],
+      "Paid campaigns on Meta and Google, from creative to targeting to reporting. Budgets spent where they actually perform.",
+    tags: ["Meta Ads", "Google Ads", "Analytics"],
   },
   {
     index: "04",
-    title: "Motion & Direction",
+    title: "AI Automation",
     description:
-      "Choreographed loaders, curtain reveals and scroll narratives. Every millisecond of easing is intentional, slightly slow, and very smooth.",
-    tags: ["Motion Design", "Art Direction"],
+      "Custom AI workflows that take over the repetitive work, from lead follow-ups to content pipelines. Your business keeps running while you sleep.",
+    tags: ["n8n", "Make", "OpenAI", "Claude"],
   },
+];
+
+/** Stacks & platforms for the hero marquee and manifesto chips. */
+export const stacks = [
+  "Next.js",
+  "React",
+  "TypeScript",
+  "Tailwind",
+  "Node.js",
+  "Supabase",
+  "WordPress",
+  "Figma",
+  "Meta Ads",
+  "Google Ads",
+  "n8n",
+  "OpenAI",
 ];
 
 export const navLinks = [
@@ -105,7 +121,6 @@ export const legalLinks = [
 
 export const socials = [
   { href: "https://github.com/adityasomaa", label: "GitHub" },
-  { href: "https://www.linkedin.com", label: "LinkedIn" },
-  { href: "https://www.instagram.com", label: "Instagram" },
-  { href: "https://x.com", label: "X / Twitter" },
+  { href: "https://www.linkedin.com/in/aditya-soma", label: "LinkedIn" },
+  { href: "https://www.instagram.com/adtyasoma", label: "Instagram" },
 ];

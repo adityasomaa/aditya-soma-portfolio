@@ -4,20 +4,7 @@ import { useEffect, useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import { ScrubWords } from "@/components/TextReveal";
 
-const SKILLS = [
-  "Next.js",
-  "React",
-  "TypeScript",
-  "GSAP",
-  "Lenis",
-  "Tailwind",
-  "WebGL",
-  "Figma",
-  "Node.js",
-  "Framer",
-  "Three.js",
-  "Shaders",
-];
+import { stacks } from "@/lib/data";
 
 /**
  * Manifesto paragraph that brightens word-by-word on scroll, plus a
@@ -75,21 +62,20 @@ export default function Manifesto() {
       <div className="bg-radial-glow pointer-events-none absolute inset-0 rotate-180" />
       <div className="relative z-10 mx-auto max-w-7xl px-5 md:px-10">
         <p className="mb-4 text-[10px] tracking-[0.4em] text-mist uppercase">
-          03 — Manifesto
+          03 / Manifesto
         </p>
         <ScrubWords className="max-w-4xl text-3xl leading-[1.25] font-medium tracking-tight md:text-5xl">
-          Most websites look the same because they are built the same. I care
-          about the other kind — the ones with texture, weight and rhythm,
-          where every scroll feels intentional and every transition hides the
-          seams. Black, white, grain, and nothing that doesn&apos;t earn its
-          place.
+          Websites that convert. Social presence that gives life to the
+          brand. Ads that reach the right people, and AI automations that
+          quietly handle the busywork. One partner for the whole digital
+          side of your business.
         </ScrubWords>
 
         <div
           ref={fieldRef}
           className="mt-20 flex max-w-4xl flex-wrap gap-3 py-6"
         >
-          {SKILLS.map((skill) => (
+          {stacks.map((skill) => (
             <span
               key={skill}
               className="chip glass rounded-full px-5 py-2.5 text-sm text-paper/80 will-change-transform select-none"

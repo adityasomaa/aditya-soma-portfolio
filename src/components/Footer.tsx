@@ -6,12 +6,12 @@ import TransitionLink from "@/components/TransitionLink";
 import MagneticButton from "@/components/MagneticButton";
 import { useSmoothScroll } from "@/components/providers/LenisProvider";
 
-function JakartaClock() {
+function BaliClock() {
   const [time, setTime] = useState("");
 
   useEffect(() => {
     const fmt = new Intl.DateTimeFormat("en-GB", {
-      timeZone: "Asia/Jakarta",
+      timeZone: "Asia/Makassar",
       hour: "2-digit",
       minute: "2-digit",
       second: "2-digit",
@@ -24,7 +24,7 @@ function JakartaClock() {
 
   return (
     <span className="tabular-nums" suppressHydrationWarning>
-      {time || "--:--:--"} WIB
+      {time || "--:--:--"} WITA
     </span>
   );
 }
@@ -33,7 +33,7 @@ export default function Footer() {
   const { scrollTop } = useSmoothScroll();
 
   return (
-    <footer className="grain grain-static relative overflow-hidden border-t border-paper/10 bg-coal">
+    <footer className="grain relative overflow-hidden border-t border-paper/10 bg-coal">
       <div className="bg-radial-glow pointer-events-none absolute inset-0" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-5 pt-20 pb-8 md:px-10">
@@ -108,9 +108,9 @@ export default function Footer() {
               Local time
             </span>
             <span className="text-sm text-paper/80">
-              <JakartaClock />
+              <BaliClock />
             </span>
-            <span className="text-sm text-mist">Jakarta, Indonesia</span>
+            <span className="text-sm text-mist">Bali, Indonesia</span>
             <button
               onClick={() => scrollTop(false)}
               className="link-line mt-4 w-fit text-left text-sm text-paper/80"
@@ -127,9 +127,8 @@ export default function Footer() {
           </span>
         </div>
 
-        <div className="mt-8 flex flex-col items-center justify-between gap-2 border-t border-paper/10 pt-6 text-[10px] tracking-[0.25em] text-mist uppercase md:flex-row">
-          <span>©2026 Aditya Soma — All rights reserved</span>
-          <span>Designed & built with taste</span>
+        <div className="mt-8 flex justify-center border-t border-paper/10 pt-6 text-[10px] tracking-[0.25em] text-mist uppercase">
+          <span>©2026 Aditya Soma. All rights reserved</span>
         </div>
       </div>
     </footer>

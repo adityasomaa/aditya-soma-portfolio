@@ -1,122 +1,82 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { gsap } from "@/lib/gsap";
+import clsx from "clsx";
 import { markAppRevealed } from "@/lib/reveal";
 import { useSmoothScroll } from "@/components/providers/LenisProvider";
 
 const NAME = "ADITYA SOMA";
+const LETTER_DELAY = 250; // ms before letters start
+const COUNT_START = 700; // ms before counter starts
+const COUNT_DURATION = 1900; // ms for 0 -> 100
+const HOLD = 250; // ms pause at 100
+const EXIT_DURATION = 1100; // matches .pl-root transition in CSS
 
 /**
- * First-load preloader: staggered name reveal, 0→100 counter,
- * a glow that chases the cursor, then a full curtain lift.
+ * First-load preloader driven entirely by CSS animations, transitions
+ * and plain timers. No animation library involved, so it can never get
+ * stuck on a frozen ticker or a killed timeline.
  */
 export default function Preloader() {
+  const [count, setCount] = useState(0);
+  const [exiting, setExiting] = useState(false);
   const [done, setDone] = useState(false);
-  const rootRef = useRef<HTMLDivElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
-  const counterRef = useRef<HTMLSpanElement>(null);
-  const barRef = useRef<HTMLDivElement>(null);
   const { stop, start } = useSmoothScroll();
 
   useEffect(() => {
-    if (done) return;
     stop();
     document.documentElement.style.overflow = "hidden";
 
-    const root = rootRef.current!;
-    const letters = root.querySelectorAll<HTMLElement>(".pl-letter");
-    const meta = root.querySelectorAll<HTMLElement>(".pl-meta");
+    const startedAt = performance.now();
+    const interval = setInterval(() => {
+      const t = (performance.now() - startedAt - COUNT_START) / COUNT_DURATION;
+      if (t < 0) return;
+      const clamped = Math.min(1, t);
+      const eased = 1 - Math.pow(1 - clamped, 3);
+      setCount(Math.round(eased * 100));
+      if (clamped >= 1) clearInterval(interval);
+    }, 40);
 
-    // interactive glow follows the cursor
-    const xTo = gsap.quickTo(glowRef.current, "x", {
-      duration: 0.6,
-      ease: "power3",
-    });
-    const yTo = gsap.quickTo(glowRef.current, "y", {
-      duration: 0.6,
-      ease: "power3",
-    });
+    const exitAt = COUNT_START + COUNT_DURATION + HOLD;
+    const exitTimer = setTimeout(() => setExiting(true), exitAt);
+    const doneTimer = setTimeout(() => {
+      document.documentElement.style.overflow = "";
+      start();
+      markAppRevealed();
+      setDone(true);
+    }, exitAt + EXIT_DURATION);
+
+    // interactive glow chases the cursor (CSS transition does the easing)
     const onMove = (e: MouseEvent) => {
-      xTo(e.clientX);
-      yTo(e.clientY);
+      glowRef.current?.style.setProperty(
+        "transform",
+        `translate(${e.clientX - 160}px, ${e.clientY - 160}px)`,
+      );
     };
     window.addEventListener("mousemove", onMove);
 
-    const progress = { value: 0 };
-    const tl = gsap.timeline({
-      onComplete: () => {
-        markAppRevealed();
-        document.documentElement.style.overflow = "";
-        start();
-        setDone(true);
-      },
-    });
-
-    tl.fromTo(
-      letters,
-      { yPercent: 120, rotate: 6 },
-      {
-        yPercent: 0,
-        rotate: 0,
-        duration: 0.9,
-        stagger: 0.045,
-        ease: "power4.out",
-        delay: 0.25,
-      },
-    )
-      .fromTo(
-        meta,
-        { opacity: 0, y: 14 },
-        { opacity: 1, y: 0, duration: 0.6, stagger: 0.12, ease: "power2.out" },
-        "-=0.5",
-      )
-      .to(
-        progress,
-        {
-          value: 100,
-          duration: 1.9,
-          ease: "power2.inOut",
-          onUpdate: () => {
-            const v = Math.round(progress.value);
-            if (counterRef.current) {
-              counterRef.current.textContent = String(v).padStart(3, "0");
-            }
-            if (barRef.current) {
-              barRef.current.style.transform = `scaleX(${progress.value / 100})`;
-            }
-          },
-        },
-        "<",
-      )
-      .to(root.querySelector(".pl-content"), {
-        yPercent: -18,
-        opacity: 0,
-        duration: 0.55,
-        ease: "power2.in",
-      })
-      .to(
-        root,
-        { yPercent: -100, duration: 1.0, ease: "power4.inOut" },
-        "-=0.25",
-      );
-
     return () => {
+      clearInterval(interval);
+      clearTimeout(exitTimer);
+      clearTimeout(doneTimer);
       window.removeEventListener("mousemove", onMove);
-      tl.kill();
+      document.documentElement.style.overflow = "";
     };
-  }, [done, stop, start]);
+  }, [stop, start]);
 
   if (done) return null;
 
   return (
     <div
-      ref={rootRef}
-      className="grain grain-static fixed inset-0 z-[100] overflow-hidden bg-ink"
+      className={clsx(
+        "pl-root grain fixed inset-0 z-[100] overflow-hidden bg-ink",
+        exiting && "pl-exit",
+      )}
     >
       <div
         ref={glowRef}
-        className="pointer-events-none absolute -top-40 -left-40 h-80 w-80 rounded-full opacity-60"
+        className="pointer-events-none absolute top-0 left-0 h-80 w-80 rounded-full opacity-60 transition-transform duration-500 ease-out"
         style={{
           background:
             "radial-gradient(circle, rgba(255,255,255,0.14), transparent 65%)",
@@ -124,44 +84,48 @@ export default function Preloader() {
         }}
       />
 
-      <div className="pl-content relative z-10 flex h-full flex-col justify-between p-6 md:p-12">
-        <div className="pl-meta flex items-center justify-between text-[10px] uppercase tracking-[0.4em] text-mist">
+      <div className="pl-inner relative z-10 flex h-full flex-col justify-between p-6 md:p-12">
+        <div
+          className="pl-meta flex items-center justify-between text-[10px] uppercase tracking-[0.4em] text-mist"
+          style={{ animationDelay: "0.5s" }}
+        >
           <span>Portfolio ©2026</span>
           <span>Creative Developer</span>
         </div>
 
-        <div className="overflow-hidden">
-          <h1 className="flex flex-wrap text-[13vw] leading-[0.95] font-medium tracking-tighter md:text-[9vw]">
-            {NAME.split("").map((ch, i) =>
-              ch === " " ? (
-                <span key={i} className="w-[0.35em]" />
-              ) : (
-                <span key={i} className="inline-block overflow-hidden">
-                  <span className="pl-letter text-gradient inline-block will-change-transform">
-                    {ch}
-                  </span>
+        <h1 className="flex flex-wrap text-[13vw] leading-[0.95] font-medium tracking-tighter md:text-[9vw]">
+          {NAME.split("").map((ch, i) =>
+            ch === " " ? (
+              <span key={i} className="w-[0.35em]" />
+            ) : (
+              <span key={i} className="inline-block overflow-hidden">
+                <span
+                  className="pl-letter text-gradient"
+                  style={{ animationDelay: `${LETTER_DELAY + i * 45}ms` }}
+                >
+                  {ch}
                 </span>
-              ),
-            )}
-          </h1>
-        </div>
+              </span>
+            ),
+          )}
+        </h1>
 
         <div className="flex items-end justify-between">
-          <p className="pl-meta max-w-56 text-[10px] uppercase tracking-[0.35em] text-mist">
-            Loading the good stuff — move your cursor around
-          </p>
-          <span
-            ref={counterRef}
-            className="text-gradient text-6xl font-medium tabular-nums tracking-tight md:text-8xl"
+          <p
+            className="pl-meta max-w-56 text-[10px] uppercase tracking-[0.35em] text-mist"
+            style={{ animationDelay: "0.65s" }}
           >
-            000
+            Loading the good stuff. Move your cursor around
+          </p>
+          <span className="text-gradient text-6xl font-medium tabular-nums tracking-tight md:text-8xl">
+            {String(count).padStart(3, "0")}
           </span>
         </div>
       </div>
 
       <div
-        ref={barRef}
-        className="absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 bg-paper/60"
+        className="absolute bottom-0 left-0 h-px w-full origin-left bg-paper/60 transition-transform duration-150 ease-linear"
+        style={{ transform: `scaleX(${count / 100})` }}
       />
     </div>
   );

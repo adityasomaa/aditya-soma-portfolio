@@ -141,7 +141,7 @@ export default function DatePicker({
         aria-label="Choose a date"
         data-lenis-prevent
         className={clsx(
-          "glass-strong absolute top-full right-0 left-0 z-30 mt-2 origin-top rounded-2xl p-4 transition-all duration-300",
+          "glass-popup absolute top-full right-0 left-0 z-30 mt-2 origin-top rounded-2xl p-4 transition-all duration-300",
           open
             ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
             : "pointer-events-none -translate-y-2 scale-[0.98] opacity-0",

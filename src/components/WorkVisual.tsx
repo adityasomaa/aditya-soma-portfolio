@@ -28,7 +28,7 @@ export default function WorkVisual({
         {work.initials}
       </span>
       <span className="absolute bottom-4 left-5 z-10 text-[10px] tracking-[0.35em] text-paper/70 uppercase">
-        {work.category} — {work.year}
+        {work.category} · {work.year}
       </span>
     </div>
   );

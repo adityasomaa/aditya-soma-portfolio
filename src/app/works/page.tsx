@@ -6,7 +6,7 @@ import { works } from "@/lib/data";
 export const metadata: Metadata = {
   title: "Works",
   description:
-    "Selected projects by Aditya Soma — web experiences, product design, and creative development.",
+    "Selected projects by Aditya Soma: web experiences, product design, and creative development.",
 };
 
 export default function WorksPage() {
@@ -15,7 +15,7 @@ export default function WorksPage() {
       <div className="bg-radial-glow pointer-events-none absolute inset-0" />
       <div className="relative z-10 mx-auto max-w-7xl px-5 md:px-10">
         <p className="mb-4 text-[10px] tracking-[0.4em] text-mist uppercase">
-          Works — {works.length} projects
+          Works / {works.length} projects
         </p>
         <SplitReveal
           as="h1"
@@ -26,7 +26,7 @@ export default function WorksPage() {
           Selected Works
         </SplitReveal>
         <p className="mb-16 max-w-md leading-relaxed text-mist">
-          A collection of dummy case studies for now — each one will grow into
+          A collection of dummy case studies for now. Each one will grow into
           a full project as this portfolio evolves.
         </p>
 

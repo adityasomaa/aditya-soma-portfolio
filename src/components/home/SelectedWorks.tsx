@@ -47,7 +47,7 @@ export default function SelectedWorks() {
         <div className="mb-14 flex items-end justify-between">
           <div>
             <p className="mb-4 text-[10px] tracking-[0.4em] text-mist uppercase">
-              01 — Selected works
+              01 / Selected works
             </p>
             <SplitReveal
               as="h2"
@@ -69,7 +69,6 @@ export default function SelectedWorks() {
             <FadeUp key={work.slug} delay={i * 0.05}>
               <TransitionLink
                 href={`/works/${work.slug}`}
-                data-cursor-text="View"
                 className="group flex items-center justify-between gap-6 border-b border-paper/10 py-8 transition-colors duration-500 md:py-10"
                 onMouseEnter={() => setHovered(i)}
                 onMouseLeave={() => setHovered(null)}

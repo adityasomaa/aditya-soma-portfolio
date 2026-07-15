@@ -134,7 +134,7 @@ export default function Header() {
       {/* fullscreen mobile menu */}
       <div
         ref={menuRef}
-        className="glass-strong pointer-events-none fixed inset-0 z-[65] flex flex-col justify-between p-6 pt-28 opacity-0"
+        className="glass-popup pointer-events-none fixed inset-0 z-[65] flex flex-col justify-between p-6 pt-28 opacity-0"
       >
         <nav className="flex flex-col gap-2">
           {navLinks.map((link, i) => (

@@ -31,7 +31,7 @@ export default async function WorkDetailPage({ params }: Props) {
       <div className="bg-radial-glow pointer-events-none absolute inset-0" />
       <div className="relative z-10 mx-auto max-w-7xl px-5 md:px-10">
         <p className="mb-4 text-[10px] tracking-[0.4em] text-mist uppercase">
-          {work.category} — {work.year}
+          {work.category} · {work.year}
         </p>
         <SplitReveal
           as="h1"
@@ -71,7 +71,7 @@ export default async function WorkDetailPage({ params }: Props) {
               {work.description}
             </ScrubWords>
             <p className="mt-8 leading-relaxed text-mist">
-              This is a placeholder case study — the real breakdown (process,
+              This is a placeholder case study. The real breakdown (process,
               wireframes, motion studies, and final build) will land here as
               the portfolio grows. Every project page shares this template, so
               adding a new work is a single data entry.

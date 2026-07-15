@@ -12,7 +12,7 @@ export default function PrivacyPolicyPage() {
       <div className="bg-radial-glow pointer-events-none absolute inset-0" />
       <div className="relative z-10 mx-auto max-w-3xl px-5 md:px-10">
         <p className="mb-4 text-[10px] tracking-[0.4em] text-mist uppercase">
-          Legal — Last updated July 2026
+          Legal / Last updated July 2026
         </p>
         <SplitReveal
           as="h1"
@@ -26,8 +26,8 @@ export default function PrivacyPolicyPage() {
         <FadeUp className="prose-mono">
           <p>
             This website is the personal portfolio of Aditya Soma. Your
-            privacy matters, and this page explains — in plain language —
-            what happens to any information you share here.
+            privacy matters, and this page explains in plain language what
+            happens to any information you share here.
           </p>
 
           <h2>What is collected</h2>

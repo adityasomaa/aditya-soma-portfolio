@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import ContactForm from "@/components/form/ContactForm";
 import { SplitReveal, FadeUp } from "@/components/TextReveal";
 import { socials } from "@/lib/data";
@@ -6,7 +6,7 @@ import { socials } from "@/lib/data";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Start a project with Aditya Soma — web experiences, product design, creative development.",
+    "Start a project with Aditya Soma: web development, social media, ads, and AI automation.",
 };
 
 export default function ContactPage() {
@@ -15,7 +15,7 @@ export default function ContactPage() {
       <div className="bg-radial-glow pointer-events-none absolute inset-0" />
       <div className="relative z-10 mx-auto max-w-7xl px-5 md:px-10">
         <p className="mb-4 text-[10px] tracking-[0.4em] text-mist uppercase">
-          Contact — Available for projects
+          Contact / Available for projects
         </p>
         <SplitReveal
           as="h1"
@@ -59,7 +59,7 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <div className="glass grain grain-static relative overflow-hidden rounded-2xl p-6">
+            <div className="glass grain relative overflow-hidden rounded-2xl p-6">
               <div className="relative z-10">
                 <span className="mb-2 flex items-center gap-2 text-[10px] tracking-[0.35em] text-mist uppercase">
                   <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-paper" />

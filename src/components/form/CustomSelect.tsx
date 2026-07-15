@@ -89,7 +89,7 @@ export default function CustomSelect({
         role="listbox"
         data-lenis-prevent
         className={clsx(
-          "glass-strong absolute top-full right-0 left-0 z-30 mt-2 max-h-56 origin-top overflow-auto rounded-xl p-1.5 transition-all duration-300",
+          "glass-popup absolute top-full right-0 left-0 z-30 mt-2 max-h-56 origin-top overflow-auto rounded-xl p-1.5 transition-all duration-300",
           open
             ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
             : "pointer-events-none -translate-y-2 scale-[0.98] opacity-0",

@@ -21,8 +21,8 @@ const PANELS = 5;
 
 /**
  * Curtain page transition:
- * click → curtain closes over the old page (logo appears) →
- * route swaps + scroll-to-top while fully covered →
+ * click -> curtain closes over the old page (logo appears) ->
+ * route swaps + scroll-to-top while fully covered ->
  * curtain reveals the new page. No visible content swap.
  */
 export default function TransitionProvider({
@@ -133,7 +133,7 @@ export default function TransitionProvider({
           {Array.from({ length: PANELS }).map((_, i) => (
             <div
               key={i}
-              className="curtain-panel grain grain-static -mx-px flex-1 translate-y-full overflow-hidden"
+              className="curtain-panel grain -mx-px flex-1 translate-y-full overflow-hidden"
               style={{
                 background:
                   "linear-gradient(180deg, #101010 0%, #0a0a0a 60%, #060606 100%)",

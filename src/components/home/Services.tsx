@@ -3,13 +3,13 @@
 import { services } from "@/lib/data";
 import { SplitReveal } from "@/components/TextReveal";
 
-/** Sticky-stacked glass cards — each card pins and the next slides over it. */
+/** Sticky-stacked glass cards: each card pins and the next slides over it. */
 export default function Services() {
   return (
     <section className="relative py-24 md:py-36">
       <div className="mx-auto max-w-7xl px-5 md:px-10">
         <p className="mb-4 text-[10px] tracking-[0.4em] text-mist uppercase">
-          02 — What I do
+          02 / What I do
         </p>
         <SplitReveal
           as="h2"
@@ -22,7 +22,7 @@ export default function Services() {
           {services.map((service, i) => (
             <div
               key={service.index}
-              className="glass grain grain-static sticky overflow-hidden rounded-3xl p-7 md:p-12"
+              className="glass grain sticky overflow-hidden rounded-3xl p-7 md:p-12"
               style={{ top: `${7 + i * 2.2}rem` }}
             >
               <div
@@ -32,7 +32,7 @@ export default function Services() {
                 }}
               />
               <div className="relative z-10 flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
-                <div className="flex items-baseline gap-6">
+                <div className="flex items-baseline gap-6 md:max-w-md">
                   <span className="text-outline text-5xl font-medium md:text-7xl">
                     {service.index}
                   </span>
