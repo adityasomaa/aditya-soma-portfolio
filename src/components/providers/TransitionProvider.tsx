@@ -5,6 +5,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useLayoutEffect,
   useRef,
 } from "react";
 import { usePathname, useRouter } from "next/navigation";
@@ -18,6 +19,9 @@ const TransitionContext = createContext<{ navigate: (href: string) => void }>({
 export const usePageTransition = () => useContext(TransitionContext);
 
 const PANELS = 5;
+
+const useIsoLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 /**
  * Curtain page transition:
@@ -42,6 +46,15 @@ export default function TransitionProvider({
 
   const panels = () =>
     overlayRef.current?.querySelectorAll<HTMLElement>(".curtain-panel") ?? [];
+
+  // Park the panels off-screen through GSAP itself. They must carry no
+  // transform/translate of their own: Tailwind's `translate-*` utilities set
+  // the standalone `translate` property, which GSAP folds into its transform
+  // as a permanent baseline, so `yPercent: 0` would still sit a full viewport
+  // below the fold and the curtain would never cover anything.
+  useIsoLayoutEffect(() => {
+    gsap.set(panels(), { yPercent: 100 });
+  }, []);
 
   const navigate = useCallback(
     (href: string) => {
@@ -133,7 +146,7 @@ export default function TransitionProvider({
           {Array.from({ length: PANELS }).map((_, i) => (
             <div
               key={i}
-              className="curtain-panel grain -mx-px flex-1 translate-y-full overflow-hidden"
+              className="curtain-panel grain -mx-px flex-1 overflow-hidden"
               style={{
                 background:
                   "linear-gradient(180deg, #101010 0%, #0a0a0a 60%, #060606 100%)",

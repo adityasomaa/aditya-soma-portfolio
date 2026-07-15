@@ -25,13 +25,14 @@ export default function Hero() {
     const fallback = setTimeout(() => setReady(true), 6000);
 
     const root = rootRef.current!;
+    // The -translate-*-1/2 classes already centre the orb via the standalone
+    // `translate` property, which composes with `transform`. Only the cursor
+    // offset belongs here, or the orb ends up half its size off-target.
     const onMove = (e: MouseEvent) => {
       const rect = root.getBoundingClientRect();
       orbRef.current?.style.setProperty(
         "transform",
-        `translate(calc(-50% + ${e.clientX - rect.width / 2}px), calc(-50% + ${
-          e.clientY - rect.height / 2
-        }px))`,
+        `translate(${e.clientX - rect.width / 2}px, ${e.clientY - rect.height / 2}px)`,
       );
     };
     root.addEventListener("mousemove", onMove);
